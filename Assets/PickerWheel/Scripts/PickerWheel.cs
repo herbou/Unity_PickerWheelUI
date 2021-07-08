@@ -96,11 +96,11 @@ namespace EasyUI.PickerWheelUI {
                onSpinStartEvent.Invoke () ;
 
             wheelCircle
-            .DORotate (Vector3.back * Random.Range (randomRotateAngle, randomRotateAngle + 360f), spinDuration, RotateMode.FastBeyond360)
+            .DORotate (Vector3.back * Random.Range (randomRotateAngle, randomRotateAngle + 360f), spinDuration, RotateMode.Fast)
             .SetEase (Ease.InOutQuart)
             .OnComplete (() => {
                float angle = wheelCircle.eulerAngles.z + pieceHalfAngle ;
-               int index = (int)((angle * wheelPieces.Length) / 360f) ;
+               int index = ((int)((angle * wheelPieces.Length) / 360f)) % wheelPieces.Length ;
                _isSpinning = false ;
                if (onSpinEndEvent != null)
                   onSpinEndEvent.Invoke (wheelPieces [ index ]) ;
