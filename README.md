@@ -43,8 +43,10 @@ public class Demo : MonoBehaviour {
 
 		pickerWheel.OnSpinEnd (wheelPiece => {
 			Debug.Log ("Spin end :") ;
-			Debug.Log ("Label  : "+wheelPiece.Label);
-			Debug.Log ("Amount : "+wheelPiece.Amount);
+			Debug.Log ("Index   : "+wheelPiece.Index);
+			Debug.Log ("Chance  : "+wheelPiece.Chance);
+			Debug.Log ("Label   : "+wheelPiece.Label);
+			Debug.Log ("Amount  : "+wheelPiece.Amount);
 		});
 
 		pickerWheel.Spin ();
