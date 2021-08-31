@@ -15,10 +15,12 @@ public class Demo : MonoBehaviour {
          uiSpinButton.interactable = false ;
          uiSpinButtonText.text = "Spinning" ;
 
-         pickerWheel.OnSpinStart (() => Debug.Log ("Spin started..")) ;
-
          pickerWheel.OnSpinEnd (wheelPiece => {
-            Debug.Log ("Spin end: Label:" + wheelPiece.Label + " , Amount:" + wheelPiece.Amount) ;
+            Debug.Log (
+               @" <b>Index:</b> " + wheelPiece.Index + "           <b>Label:</b> " + wheelPiece.Label
+               + "\n <b>Amount:</b> " + wheelPiece.Amount + "      <b>Chance:</b> " + wheelPiece.Chance + "%"
+            ) ;
+
             uiSpinButton.interactable = true ;
             uiSpinButtonText.text = "Spin" ;
          }) ;
@@ -26,5 +28,7 @@ public class Demo : MonoBehaviour {
          pickerWheel.Spin () ;
 
       }) ;
+
    }
+
 }
