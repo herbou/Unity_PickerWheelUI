@@ -1,13 +1,11 @@
-﻿using UnityEngine ;
+using UnityEngine ;
 
 namespace EasyUI.PickerWheelUI {
    [System.Serializable]
    public class WheelPiece {
       public UnityEngine.Sprite Icon ;
       public string Label ;
-
-      [Tooltip ("Reward amount")] public int Amount ;
-
+      public int value;
       [Tooltip ("Probability in %")] 
       [Range (0f, 100f)] 
       public float Chance = 100f ;
