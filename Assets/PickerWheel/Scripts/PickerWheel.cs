@@ -1,4 +1,4 @@
-﻿using UnityEngine ;
+using UnityEngine ;
 using UnityEngine.UI ;
 using DG.Tweening ;
 using UnityEngine.Events ;
@@ -43,7 +43,6 @@ namespace EasyUI.PickerWheelUI {
 
       public bool IsSpinning { get { return _isSpinning ; } }
 
-
       private Vector2 pieceMinSize = new Vector2 (81f, 146f) ;
       private Vector2 pieceMaxSize = new Vector2 (144f, 213f) ;
       private int piecesMin = 2 ;
@@ -53,9 +52,10 @@ namespace EasyUI.PickerWheelUI {
       private float halfPieceAngle ;
       private float halfPieceAngleWithPaddings ;
 
-
       private double accumulatedWeight ;
       private System.Random rand = new System.Random () ;
+
+      public int score;
 
       private List<int> nonZeroChancesIndices = new List<int> () ;
 
@@ -74,7 +74,6 @@ namespace EasyUI.PickerWheelUI {
          SetupAudio () ;
 
       }
-
       private void SetupAudio () {
          audioSource.clip = tickAudioClip ;
          audioSource.volume = volume ;
@@ -96,25 +95,26 @@ namespace EasyUI.PickerWheelUI {
          Destroy (wheelPiecePrefab) ;
       }
 
-      private void DrawPiece (int index) {
+      public void DrawPiece (int index) {
+
          WheelPiece piece = wheelPieces [ index ] ;
          Transform pieceTrns = InstantiatePiece ().transform.GetChild (0) ;
 
          pieceTrns.GetChild (0).GetComponent <Image> ().sprite = piece.Icon ;
          pieceTrns.GetChild (1).GetComponent <Text> ().text = piece.Label ;
-         pieceTrns.GetChild (2).GetComponent <Text> ().text = piece.Amount.ToString () ;
+         pieceTrns.GetChild (2).GetComponent <Text> ().text = piece.value.ToString();
 
-         //Line
+          //Line
          Transform lineTrns = Instantiate (linePrefab, linesParent.position, Quaternion.identity, linesParent).transform ;
          lineTrns.RotateAround (wheelPiecesParent.position, Vector3.back, (pieceAngle * index) + halfPieceAngle) ;
 
          pieceTrns.RotateAround (wheelPiecesParent.position, Vector3.back, pieceAngle * index) ;
       }
 
+      
       private GameObject InstantiatePiece () {
          return Instantiate (wheelPiecePrefab, wheelPiecesParent.position, Quaternion.identity, wheelPiecesParent) ;
       }
-
 
       public void Spin () {
          if (!_isSpinning) {
@@ -159,14 +159,11 @@ namespace EasyUI.PickerWheelUI {
                }
                currentAngle = wheelCircle.eulerAngles.z ;
             })
-            .OnComplete (() => {
-               _isSpinning = false ;
-               if (onSpinEndEvent != null)
-                  onSpinEndEvent.Invoke (piece) ;
-
-               onSpinStartEvent = null ; 
-               onSpinEndEvent = null ;
-            }) ;
+               .OnComplete(() => {
+               onSpinEndEvent.Invoke(piece);
+               score += piece.value;
+               _isSpinning = false;
+               });
 
          }
       }
@@ -215,6 +212,7 @@ namespace EasyUI.PickerWheelUI {
 
 
       private void OnValidate () {
+
          if (PickerWheelTransform != null)
             PickerWheelTransform.localScale = new Vector3 (wheelSize, wheelSize, 1f) ;
 
